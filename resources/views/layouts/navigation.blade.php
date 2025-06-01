@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                        <img src="{{ asset('images/logo.png') }}" alt="Logo" style="max-height: 52px;">
                     </a>
                 </div>
             </div>
@@ -14,7 +14,7 @@
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 {{-- Leads (no dropdown) --}}
-                <x-nav-link :href="route('leads.index')" :active="request()->routeIs('leads.index')">
+                <x-nav-link :href="route('leads.index')" :active="request()->routeIs('dashboard')">
                     {{ __('Leads') }}
                 </x-nav-link>
                 {{-- Courses --}}

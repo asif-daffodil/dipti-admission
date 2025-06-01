@@ -4,15 +4,38 @@ namespace App\Http\Controllers;
 
 use App\Models\Lead;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
+use Carbon\Carbon;
 
 class LeadController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if ($request->ajax()) {
+            $leads = Lead::with('course')->select('leads.*');
+            return DataTables::of($leads)
+                ->addColumn('course_name', function ($lead) {
+                    return $lead->course->title ?? 'N/A';
+                })
+                ->editColumn('created_at', function ($row) {
+                    return Carbon::parse($row->created_at)->format('d M Y, h:i A');
+                })
+                ->make(true);
+        }
+
+        return view('dashboard');
+    }
+
+    // destroySelected
+    public function destroySelected(Request $request)
+    {
+        $ids = $request->input('ids', []);
+        Lead::whereIn('id', $ids)->delete();
+
+        return response()->json(['success' => true]);
     }
 
     /**

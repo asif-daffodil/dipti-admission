@@ -12,11 +12,12 @@ Route::get('/', function () {
 });
 
 Route::resource('courses', CourseController::class)->middleware(['auth', 'verified']);
-Route::resource('/leads', LeadController::class)->middleware(['auth', 'verified']);
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::post('/leads', [LeadController::class, 'store'])->name('leads.store');
+Route::get('/leads', [LeadController::class, 'index'])->name('leads.index')->middleware(['auth', 'verified']);
+Route::post('/leads/destroySelected', [LeadController::class, 'destroySelected'])->name('leads.destroySelected')->middleware(['auth', 'verified']);
+
+Route::get('/dashboard', [LeadController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

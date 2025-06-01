@@ -7,6 +7,7 @@ use App\Models\Course;
 
 class Lead extends Model
 {
+
     protected $fillable = ['fullname', 'mobile', 'email', 'course_id'];
 
     /**
